@@ -12,7 +12,7 @@ This is  NEW project, it is not battle tested! Use at your own risk. This server
 
 Arnie is not intended to be a professional production quality email server ...... it's for technically experienced people who know what they are doing and are happy to read the Python code and accept the risks.
 
-I wrote Arnie because I got frustrated using complex queueing systems like Celery simply to buffer outbound SMTP emails.
+I wrote Arnie because I got frustrated using complex queueing systems simply to buffer outbound SMTP emails. I'd rather spend time writing this than spend the same time debugging Celery configuration.
 
 ## Purpose of Arnie.
 
