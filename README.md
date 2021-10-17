@@ -12,7 +12,7 @@ Web applications often need to send emails.
 
 Ideally the web server code doesn't actually talk directly to an SMTP server.  Instead it should somehow queue/buffer the email for sending.  This ensures the web page can return to the user as quickly as possible instead of waiting for the SMTP send to actually complete.
 
-This server is intended for small scale usage - for example a typical web server for a simple SAAS application.  It may work for large scale email traffic but it's unknown how it would handle such load.
+This server is intended for small scale usage - for example a typical web server for a simple SAAS application.  Large scale email traffic would require parallel sends to the SMTP server.
 
 Arnie seqentially sends emails - it does not attempt to send email to the SMTP server in parallel.  It probably could do fairly easily by spawning email send tasks, but SMTP parallelisation was not the goal in writing Arnie.
 
@@ -124,7 +124,7 @@ Explanation of environment variables:
 **OUTBOUND_EMAIL_USERNAME** - username for your destination SMTP server  
 **OUTBOUND_EMAIL_PASSWORD** - password for your destination SMTP server  
 **OUTBOUND_EMAIL_HOST_PORT** - port number  for your destination SMTP server  
-**ADMIN_ADDRESS** - the Arnie server sends an email every hour to this address with a count of failed sends. (do not set this if you do not want to receive report emails)  
+**ADMIN_ADDRESS** - the Arnie server sends an email every hour to this address with a count of failed sends. (omit this environment variable if you do not want to receive report emails)  
 **SAVE_SENT_MAIL** - if true, then sent emails are saved in the FILES_DIRECTORY/failed  
 **ARNIE_LISTEN_PORT** - default is 8025 - the port number that the Arnie server listens on for inbound SMTP messages  
 **FILES_DIRECTORY** - where Arnie should store the buffered email files  
