@@ -21,7 +21,6 @@ This server is intended for small scale usage - for example a typical web server
 
 This server is written to meet my own personal needs - as such I do not need to, want to, nor can I afford to write tests.  If that's important to you then you could use some other solution.  If you like the Arnie server and choose to use it then please use it on the understanding of the context in which it is written and provided to you for free.
 
-<hr style="border:1px solid gray"/> 
 
 ## Running Arnie:
 
@@ -72,7 +71,7 @@ Send a test email via Arnie with curl (modify this line and replace the email ad
 printf "To: foo@example.org\r\nFrom: foo@example.org\r\nSubject: A test from Arnie\r\n\r\nI'll be back." | curl smtp://127.0.0.1:8025 --mail-from foo@example.org --mail-rcpt foo@example.org -T -
 ```
 
-## Instructions to install Arnie on Ubuntu Linux:
+## Instructions to install Arnie on Linux:
 
 Make a directory:
 ```
