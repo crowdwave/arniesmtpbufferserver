@@ -1,7 +1,14 @@
 # Arnie - SMTP buffer server in < 100 lines of async Python
 
 
+-------------------------------
+**Project status**:
+
 Created 17 Oct 2021 by Andrew Stuart andrew.stuart@supercoders.com.au
+
+License: MIT
+
+## IMPORTANT!!! This is  NEW project, it is not battle tested! Use at your own risk.
 
 -------------------------------
 **Purpose**:
@@ -12,16 +19,8 @@ Ideally the web server code doesn't actually talk directly to an SMTP server.  I
 
 I wrote this because I got frustrated using complex queueing systems simply to buffer outbound SMTP emails.
 
--------------------------------
-**Project status**:
-
-Created 17 Oct 2021 by Andrew Stuart andrew.stuart@supercoders.com.au
-
-License: MIT
-
-## IMPORTANT!!! This is  NEW project, it is not battle tested! Use at your own risk.
-
 ------------------------------
+
 ## Running Arnie:
 
 **Requires minimum Python 3.8**
