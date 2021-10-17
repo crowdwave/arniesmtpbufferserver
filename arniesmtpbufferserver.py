@@ -27,7 +27,7 @@ POLL_WAIT = 10  # seconds
 FILES_DIRECTORY = os.environ.get('FILES_DIRECTORY', '')  # current directory if not specified in an environment variable
 if not FILES_DIRECTORY.endswith('/') and FILES_DIRECTORY != '':
     FILES_DIRECTORY += '/'
-PREFIX = f'{FILES_DIRECTORY}arniesmtpbufferserver'
+PREFIX = f'{FILES_DIRECTORY}arniefiles'
 
 
 async def reporting(loop):

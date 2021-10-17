@@ -21,7 +21,7 @@ License: MIT
 
 ####IMPORTANT!!! This is  NEW project, it is not battle tested! Use at your own risk.
 
-##Installing Arnie:
+##Instructions to install Arnie on Ubuntu Linux:
 
 Make a directory:
 ```
@@ -47,17 +47,19 @@ Switch to the directory:
 cd /opt/arniesmtpbufferserver/
 ```
 
+Download the Arnie Python program file from github:
+
+```
+curl -O https://raw.githubusercontent.com/bootrino/arniesmtpbufferserver/master/arniesmtpbufferserver.py
+curl -O https://raw.githubusercontent.com/bootrino/arniesmtpbufferserver/master/.env
+```
+
 Create a Python venv:
 
 ```
 python3 -m venv venv3
 ```
 
-Download the Arnie Python program file from github:
-
-```
-curl -O https://raw.githubusercontent.com/bootrino/arniesmtpbufferserver/master/arniesmtpbufferserver.py
-```
 
 Activate the venv:
 
@@ -83,6 +85,10 @@ You are now ready to run Arnie.
 
 Prior to running the server, you must set certain environment variables in the .env file.
 
+In an earlier step we downloaded the example .env file from github.
+
+Edit that file now and configure it as you choose.
+
 Here is an example for using Amazon Simple Email Service:
 ```
 OUTBOUND_EMAIL_USE_TLS=true
@@ -93,7 +99,7 @@ OUTBOUND_EMAIL_HOST_PORT=587
 ADMIN_ADDRESS=someone.who.cares.if.email.is.working@example.org
 SAVE_SENT_MAIL=true
 ARNIE_LISTEN_PORT=8025
-FILES_DIRECTORY=arniefiles
+FILES_DIRECTORY=~
 ```
 
 Explanation of environment variables:
@@ -136,7 +142,7 @@ Go to the directory where systemd service files are stored:
 cd /etc/systemd/system
 ```
 
-Download the service file from github:
+Download the systemd service file from github:
 
 ```
 sudo curl -O https://raw.githubusercontent.com/bootrino/arniesmtpbufferserver/master/etc/systemd/system/arniesmtpbufferserver.service
