@@ -19,7 +19,58 @@ Created 17 Oct 2021 by Andrew Stuart andrew.stuart@supercoders.com.au
 
 License: MIT
 
-#### IMPORTANT!!! This is  NEW project, it is not battle tested! Use at your own risk.
+## IMPORTANT!!! This is  NEW project, it is not battle tested! Use at your own risk.
+
+------------------------------
+## Running Arnie:
+
+**Requires minimum Python 3.8**
+
+Prior to running the server, you must set certain environment variables in the .env file.
+
+In an earlier step we downloaded the example .env file from github.
+
+Edit that file now and configure it as you choose.
+
+Here is an example for using Amazon Simple Email Service:
+```
+OUTBOUND_EMAIL_USE_TLS=true
+OUTBOUND_EMAIL_HOST=email-smtp.eu-west-1.amazonaws.com 
+OUTBOUND_EMAIL_USERNAME=AKIAUU821WSDPIBFFYYV
+OUTBOUND_EMAIL_PASSWORD=BL+Ctcgdg93prPZjnUkJFIpP1cEew3mqhDkqCHvbKIzR
+OUTBOUND_EMAIL_HOST_PORT=587
+ADMIN_ADDRESS=someone.who.cares.if.email.is.working@example.org
+SAVE_SENT_MAIL=true
+ARNIE_LISTEN_PORT=8025
+FILES_DIRECTORY=~
+```
+
+Explanation of environment variables:
+```
+OUTBOUND_EMAIL_USE_TLS - whether to use TLS for your destination SMTP server  
+OUTBOUND_EMAIL_HOST - host address for your destination SMTP server 
+OUTBOUND_EMAIL_USERNAME - username for your destination SMTP server
+OUTBOUND_EMAIL_PASSWORD - password for your destination SMTP server
+OUTBOUND_EMAIL_HOST_PORT - port number  for your destination SMTP server
+ADMIN_ADDRESS - the Arnie server sends an email every hour to this address with a count of failed sends. (do not set this if you do not want to receive report emails)
+SAVE_SENT_MAIL - if true, then sent emails are saved in the FILES_DIRECTORY/failed
+ARNIE_LISTEN_PORT - default is 8025 - the port number that the Arnie server listens on for inbound SMTP messages
+FILES_DIRECTORY - where Arnie should store the buffered email files
+```
+
+Start the Arnie server:
+
+```
+source venv3/bin/activate
+python arniesmtpbufferserver.py
+```
+
+Send a test email via Arnie with curl (modify this line and replace the email addresses):
+
+```
+printf "To: foo@example.org\r\nFrom: foo@example.org\r\nSubject: A test from Arnie\r\n\r\nI'll be back." | curl smtp://127.0.0.1:8025 --mail-from foo@example.org --mail-rcpt foo@example.org -T -
+```
+----------------------------------------------
 
 ## Instructions to install Arnie on Ubuntu Linux:
 
@@ -78,55 +129,6 @@ pip install python-dotenv
 Arnie is a single Python file. Save the arniesmtpbufferserver.py from the github repo.
 
 You are now ready to run Arnie.
-
-## Running Arnie:
-
-**Requires minimum Python 3.8**
-
-Prior to running the server, you must set certain environment variables in the .env file.
-
-In an earlier step we downloaded the example .env file from github.
-
-Edit that file now and configure it as you choose.
-
-Here is an example for using Amazon Simple Email Service:
-```
-OUTBOUND_EMAIL_USE_TLS=true
-OUTBOUND_EMAIL_HOST=email-smtp.eu-west-1.amazonaws.com 
-OUTBOUND_EMAIL_USERNAME=AKIAUU821WSDPIBFFYYV
-OUTBOUND_EMAIL_PASSWORD=BL+Ctcgdg93prPZjnUkJFIpP1cEew3mqhDkqCHvbKIzR
-OUTBOUND_EMAIL_HOST_PORT=587
-ADMIN_ADDRESS=someone.who.cares.if.email.is.working@example.org
-SAVE_SENT_MAIL=true
-ARNIE_LISTEN_PORT=8025
-FILES_DIRECTORY=~
-```
-
-Explanation of environment variables:
-```
-OUTBOUND_EMAIL_USE_TLS - whether to use TLS for your destination SMTP server  
-OUTBOUND_EMAIL_HOST - host address for your destination SMTP server 
-OUTBOUND_EMAIL_USERNAME - username for your destination SMTP server
-OUTBOUND_EMAIL_PASSWORD - password for your destination SMTP server
-OUTBOUND_EMAIL_HOST_PORT - port number  for your destination SMTP server
-ADMIN_ADDRESS - the Arnie server sends an email every hour to this address with a count of failed sends. (do not set this if you do not want to receive report emails)
-SAVE_SENT_MAIL - if true, then sent emails are saved in the FILES_DIRECTORY/failed
-ARNIE_LISTEN_PORT - default is 8025 - the port number that the Arnie server listens on for inbound SMTP messages
-FILES_DIRECTORY - where Arnie should store the buffered email files
-```
-
-Start the Arnie server:
-
-```
-source venv3/bin/activate
-python arniesmtpbufferserver.py
-```
-
-Send a test email via Arnie with curl (modify this line and replace the email addresses):
-
-```
-printf "To: foo@example.org\r\nFrom: foo@example.org\r\nSubject: A test from Arnie\r\n\r\nI'll be back." | curl smtp://127.0.0.1:8025 --mail-from foo@example.org --mail-rcpt foo@example.org -T -
-```
 
 ## Security important!
 
