@@ -1,4 +1,4 @@
-# Arnie - SMTP buffer server in < 100 lines of async Python
+# Arnie - SMTP buffer server in ~ 100 lines of async Python
 
 ### Project status:
 
@@ -6,13 +6,11 @@ Created 17 Oct 2021 by Andrew Stuart andrew.stuart@supercoders.com.au
 
 License: MIT
 
-## IMPORTANT!!! This is  NEW project, it is not battle tested! Use at your own risk.
-
-This server is written to meet my own personal needs - as such I do not need to, want to, nor can I afford to write tests.  
+This is  NEW project, it is not battle tested! Use at your own risk. This server is written to meet my own personal needs - as such I do not need to, want to, nor can I afford to write tests.  
 
 Arnie is not intended to be a professional production quality email server ...... it's for technically experienced people who know what they are doing and are happy to read the Python code and accept the risks.
 
-If the above is not suitable for you then please don't use Arnie.
+I wrote Arnie because I got frustrated using complex queueing systems like Celery simply to buffer outbound SMTP emails.
 
 ## Purpose of Arnie.
 
@@ -20,10 +18,13 @@ Web applications often need to send emails.
 
 Ideally the web server code doesn't actually talk directly to an SMTP server.  Instead it should somehow queue/buffer the email for sending.  This ensures the web page can return to the user as quickly as possible instead of waiting for the SMTP send to actually complete.
 
-I wrote this because I got frustrated using complex queueing systems simply to buffer outbound SMTP emails.
+This server is intended for small scale usage - for example a typical web server for a simple SAAS application.  It may work for large scale email traffic but it's completely unknown how it would handle such load.
 
-This server is intended for small scale usage - for example a typical web server for a SAAS application.  It may work for large scale email traffic but it's completely unknown how it would handle such load.
+Arnie seqentially sends emails - it does not attempt to send email to the SMTP server in parallel.  It probably could do fairly easily by spawning email send tasks, but SMTP parallelisation was not the goal in writing Arnie.
 
+## Credits:
+
+Credit to Lynn Root for Arnie's shutdown code https://www.roguelynn.com/words/asyncio-graceful-shutdowns/
 
 ## Running Arnie:
 
