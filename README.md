@@ -18,7 +18,7 @@ Arnie seqentially sends emails - it does not attempt to send email to the SMTP s
 
 ### Project status:
 
-This is  NEW project, it is not battle tested! Use at your own risk. This server is written to meet my own personal needs - as such I do not need to, want to, nor can I afford to write tests.  
+**This is  NEW project, it is not battle tested! Use at your own risk.  There will be bugs.** This server is written to meet my own personal needs - as such I do not need to, want to, nor can I afford to write tests.  
 
 Arnie is not intended to be a professional production quality email server ...... it's for technically experienced people who know what they are doing and are happy to read the Python code and accept the risks.
 
