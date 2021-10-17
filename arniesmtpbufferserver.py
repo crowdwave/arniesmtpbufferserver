@@ -1,4 +1,4 @@
-# arniesmtpbufferserver v1
+# arniemailbufferserver v1
 # copyright 2021 Andrew Stuart andrew.stuart@supercoders.com.au
 # MIT licensed
 
@@ -22,25 +22,25 @@ ADMIN_ADDRESS = os.environ.get('ADMIN_ADDRESS', None)
 SAVE_SENT_MAIL = os.environ.get('SAVE_SENT_MAIL') in ['1', 'true', 'yes']
 ARNIE_LISTEN_PORT = int(os.environ.get('ARNIE_LISTEN_PORT', 8025))
 
-MAX_SEND_ATTEMPTS = 3
-POLL_WAIT = 10  # seconds
+MAX_SEND_ATTEMPTS = 50
 FILES_DIRECTORY = os.environ.get('FILES_DIRECTORY', '')  # current directory if not specified in an environment variable
 if not FILES_DIRECTORY.endswith('/') and FILES_DIRECTORY != '':
     FILES_DIRECTORY += '/'
 PREFIX = f'{FILES_DIRECTORY}arniefiles'
-
+RETRY_DELAY_SECONDS = 60 * 1 # 1 minute
+POLL_WAIT_SECONDS = min(10, RETRY_DELAY_SECONDS)  # seconds ( cannot be larger than RETRY_DELAY_SECONDS)
 
 async def reporting(loop):
     # periodically send a reporting email
-    if not ADMIN_ADDRESS:
-        return
-    while True:
-        message = email.message_from_string(textwrap.dedent(f"""\
-                From: {ADMIN_ADDRESS}
-                To: {ADMIN_ADDRESS}
-                Subject: arniesmtpbufferserver: failed count: {len(os.listdir(f'{PREFIX}/failed'))} """))
-        await aiosmtplib.send(message, hostname='localhost', port=ARNIE_LISTEN_PORT)
-        await asyncio.sleep(3600)  # once an hour
+    if ADMIN_ADDRESS:
+        while True:
+            await asyncio.sleep(3600)  # once an hour
+            if len(os.listdir(f'{PREFIX}/failed')) > 0:
+                message = email.message_from_string(textwrap.dedent(f"""\
+                        From: {ADMIN_ADDRESS}
+                        To: {ADMIN_ADDRESS}
+                        Subject: arniemailbufferserver: failed count: {len(os.listdir(f'{PREFIX}/failed'))} """))
+                await aiosmtplib.send(message, hostname='localhost', port=ARNIE_LISTEN_PORT)
 
 
 async def shutdown(signal, loop):
@@ -56,40 +56,53 @@ async def shutdown(signal, loop):
 async def send_mail(loop):
     creation_time_of_last_processed_file = 0
     sent_attempts = {}
+    # the send_mail process continously sends the oldest file in the outbox.
+    # each iteration records the creation_time_of_last_processed_file
+    # files older than the creation_time_of_last_processed_file are discarded from each loop
+    # therefore each iteration keeps advancing forward by time to the next oldest file.
+    # retries:
+    # retries are pushed into the future by some period of time RETRY_DELAY_SECONDS
+    # we do this by changing the modified time of file into the future
+    # files that have a modified time in the future are discarded from each loop
+    # the retry mechanism is hacky but simple
     while True:
-        # we need to process the oldest file in the outbox directory BUT must always ignore those already processed
-        files_in_outbox = [f'{PREFIX}/outbox/{x}' for x in os.listdir(f'{PREFIX}/outbox')
-                           if os.path.getctime(f'{PREFIX}/outbox/{x}') > creation_time_of_last_processed_file]
+        # get files in outbox
+        files_in_outbox = [f'{PREFIX}/outbox/{x}' for x in os.listdir(f'{PREFIX}/outbox')]
+        # discard files that are older than the creation_time_of_last_processed_file
+        files_in_outbox = [x for x in files_in_outbox if os.path.getctime(x) > creation_time_of_last_processed_file]
+        # discard files that have a modified time in the future
+        files_in_outbox = [x for x in files_in_outbox if os.path.getmtime(x) > time.time()]
         if not files_in_outbox:
             # no emails to send
             creation_time_of_last_processed_file = 0
-            await asyncio.sleep(POLL_WAIT)
+            await asyncio.sleep(POLL_WAIT_SECONDS)
             continue
-        oldest_file_path = min(files_in_outbox, key=os.path.getctime)
-        creation_time_of_last_processed_file = os.path.getctime(oldest_file_path)
-        print('creation_time_of_last_processed_file: ', creation_time_of_last_processed_file)
-        oldest_file_name = oldest_file_path.split('/')[-1]
-        with open(oldest_file_path, 'rb') as f:
+        oldest_file_in_outbox = min(files_in_outbox, key=os.path.getctime)
+        creation_time_of_last_processed_file = os.path.getctime(oldest_file_in_outbox)
+        oldest_file_name = oldest_file_in_outbox.split('/')[-1]
+        with open(oldest_file_in_outbox, 'rb') as f:
             message = email.message_from_binary_file(f)
         try:
             await aiosmtplib.send(message, hostname=OUTBOUND_EMAIL_HOST, port=OUTBOUND_EMAIL_HOST_PORT,
                                   username=OUTBOUND_EMAIL_USERNAME,
                                   password=OUTBOUND_EMAIL_PASSWORD, start_tls=OUTBOUND_EMAIL_USE_TLS)
             if SAVE_SENT_MAIL:
-                os.rename(oldest_file_path, f'{PREFIX}/sent/{oldest_file_name}')
+                os.rename(oldest_file_in_outbox, f'{PREFIX}/sent/{oldest_file_name}')
             else:
-                os.remove(oldest_file_path)
+                os.remove(oldest_file_in_outbox)
         except Exception as e:
-            logging.info(f'ERROR SENDING: {oldest_file_path} {repr(e)}')
-            if oldest_file_path in sent_attempts.keys():
-                if sent_attempts[oldest_file_path] > MAX_SEND_ATTEMPTS:
-                    os.rename(oldest_file_path, f'{PREFIX}/failed/{oldest_file_name}')
+            logging.info(f'ERROR SENDING: {oldest_file_in_outbox} {repr(e)}')
+            # set the file modified time into the future - retry will not happen before this time
+            os.utime(oldest_file_in_outbox, (creation_time_of_last_processed_file, time.time() + (RETRY_DELAY_SECONDS * 1000)))
+            if oldest_file_in_outbox in sent_attempts.keys():
+                if sent_attempts[oldest_file_in_outbox] > MAX_SEND_ATTEMPTS:
+                    os.rename(oldest_file_in_outbox, f'{PREFIX}/failed/{oldest_file_name}')
                     # stop tracking attempts for this file
-                    sent_attempts.pop(oldest_file_path, None)
+                    sent_attempts.pop(oldest_file_in_outbox, None)
                     continue
-                sent_attempts[oldest_file_path] += 1
+                sent_attempts[oldest_file_in_outbox] += 1
             else:
-                sent_attempts[oldest_file_path] = 0
+                sent_attempts[oldest_file_in_outbox] = 0
             continue
         logging.info(f'sent: sent/{oldest_file_name} from: {message.get("From")}')
 
