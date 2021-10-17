@@ -1,7 +1,7 @@
 # Arnie - SMTP buffer server in < 100 lines of async Python
 
-
 -------------------------------
+
 **Project status**:
 
 Created 17 Oct 2021 by Andrew Stuart andrew.stuart@supercoders.com.au
