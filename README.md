@@ -2,7 +2,7 @@
 
 ---
 
-**Project status**:
+Project status
 
 Created 17 Oct 2021 by Andrew Stuart andrew.stuart@supercoders.com.au
 
