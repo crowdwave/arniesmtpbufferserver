@@ -1,5 +1,5 @@
 # arniesmtpbufferserver v1
-# copyright 2021 Andrew Stuart andrew.stuart@supercodes.com.au
+# copyright 2021 Andrew Stuart andrew.stuart@supercoders.com.au
 # MIT licensed
 
 # this is an SMTP email buffer server - useful for web servers
