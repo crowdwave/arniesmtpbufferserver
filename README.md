@@ -88,6 +88,8 @@ python3 arniesmtpbufferserver.py
 
 Arnie should now start and be ready to send email.
 
+To send an email via Arnie, use any SMTP sending program, with the port address equal to the ARNIE_LISTEN_PORT default is 8025. No username or password is required when sending. 
+
 ## Security important!
 
 Arnie is an open mail relay - it has no security - it is intended to be accessed only as a local service on a server.
