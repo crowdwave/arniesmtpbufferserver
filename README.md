@@ -6,13 +6,17 @@ License: MIT
 
 **Requires minimum Python 3.8**
 
-## Purpose of Arnie.
+## What is Arnie and why should you use it?
 
-Web applications often need to send emails.
+Arnie is a server that has the single purpose of buffering outbound SMTP emails.
 
-Ideally the web server code doesn't actually talk directly to an SMTP server.  Instead it should somehow queue/buffer the email for sending.  This ensures the web page can return to the user as quickly as possible instead of waiting for the SMTP send to actually complete.
+A typical web SAAS needs to send emails such as signup/signin/forgot password etc. 
 
-This server is intended for small scale usage - for example a typical web server for a simple SAAS application.  Large scale email traffic would require parallel sends to the SMTP server.
+The web page code itself should not directly write this to an SMTP server. Instead they should be decoupled. There's a few reasons for this. One is, if there is an error in sending the email, then the whole thing simply falls over if that send was executed by the web page code - there's no chance to resend because the web request has completed. Also, execution of an SMTP request by a web page slows the response time down of that page, whilst the code goes through the process of connecting to the server and sending the email. So when you send SMTP email from your web application, the most performant and safest way to do it is to buffer them for sending. The buffering server will then queue them and send them and handle things like retries if the target SMTP server is down or throttled. 
+
+There's a few ways to solve this problem - you can set up a local email server and configure it for relaying. Or in the Python world people often use Celery.  Complexity is the down side of using either Celery or an email server configured for relaying - both of these solutions have many more features than needed and can be complex to configure/run/troubleshoot.
+
+Arnie is intended for small scale usage - for example a typical web server for a simple SAAS application.  Large scale email traffic would require parallel sends to the SMTP server.
 
 Arnie seqentially sends emails - it does not attempt to send email to the SMTP server in parallel.  It probably could do fairly easily by spawning email send tasks, but SMTP parallelisation was not the goal in writing Arnie.
 
