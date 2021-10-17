@@ -1,0 +1,15 @@
+[Unit]
+Description=arniesmtpbufferserver service
+After=network.target
+
+[Service]
+User=ubuntu
+Group=ubuntu
+Type=simple
+WorkingDirectory=/opt/arniesmtpbufferserver
+Environment=PYTHONUNBUFFERED=1
+Environment=PYTHONPATH=:/opt/arniesmtpbufferserver
+ExecStart=/opt/arniesmtpbufferserver/venv3/bin/python /opt/arniesmtpbufferserver/arniesmtpbufferserver.py
+
+[Install]
+WantedBy=multi-user.target
