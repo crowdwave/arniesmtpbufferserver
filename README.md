@@ -120,14 +120,14 @@ FILES_DIRECTORY=~
 Explanation of environment variables:
 
 **OUTBOUND_EMAIL_USE_TLS** - whether to use TLS for your destination SMTP server  
-**OUTBOUND_EMAIL_HOST** - host address for your destination SMTP server 
-**OUTBOUND_EMAIL_USERNAME** - username for your destination SMTP server
-**OUTBOUND_EMAIL_PASSWORD** - password for your destination SMTP server
-**OUTBOUND_EMAIL_HOST_PORT** - port number  for your destination SMTP server
-**ADMIN_ADDRESS** - the Arnie server sends an email every hour to this address with a count of failed sends. (do not set this if you do not want to receive report emails)
-**SAVE_SENT_MAIL** - if true, then sent emails are saved in the FILES_DIRECTORY/failed
-**ARNIE_LISTEN_PORT** - default is 8025 - the port number that the Arnie server listens on for inbound SMTP messages
-**FILES_DIRECTORY** - where Arnie should store the buffered email files
+**OUTBOUND_EMAIL_HOST** - host address for your destination SMTP server  
+**OUTBOUND_EMAIL_USERNAME** - username for your destination SMTP server  
+**OUTBOUND_EMAIL_PASSWORD** - password for your destination SMTP server  
+**OUTBOUND_EMAIL_HOST_PORT** - port number  for your destination SMTP server  
+**ADMIN_ADDRESS** - the Arnie server sends an email every hour to this address with a count of failed sends. (do not set this if you do not want to receive report emails)  
+**SAVE_SENT_MAIL** - if true, then sent emails are saved in the FILES_DIRECTORY/failed  
+**ARNIE_LISTEN_PORT** - default is 8025 - the port number that the Arnie server listens on for inbound SMTP messages  
+**FILES_DIRECTORY** - where Arnie should store the buffered email files  
 
 Start the Arnie server:
 
