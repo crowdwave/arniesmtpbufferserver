@@ -6,6 +6,8 @@ Created 17 Oct 2021 by Andrew Stuart andrew.stuart@supercoders.com.au
 
 License: MIT
 
+**Requires minimum Python 3.8**
+
 This is  NEW project, it is not battle tested! Use at your own risk. This server is written to meet my own personal needs - as such I do not need to, want to, nor can I afford to write tests.  
 
 Arnie is not intended to be a professional production quality email server ...... it's for technically experienced people who know what they are doing and are happy to read the Python code and accept the risks.
@@ -18,7 +20,7 @@ Web applications often need to send emails.
 
 Ideally the web server code doesn't actually talk directly to an SMTP server.  Instead it should somehow queue/buffer the email for sending.  This ensures the web page can return to the user as quickly as possible instead of waiting for the SMTP send to actually complete.
 
-This server is intended for small scale usage - for example a typical web server for a simple SAAS application.  It may work for large scale email traffic but it's completely unknown how it would handle such load.
+This server is intended for small scale usage - for example a typical web server for a simple SAAS application.  It may work for large scale email traffic but it's unknown how it would handle such load.
 
 Arnie seqentially sends emails - it does not attempt to send email to the SMTP server in parallel.  It probably could do fairly easily by spawning email send tasks, but SMTP parallelisation was not the goal in writing Arnie.
 
@@ -26,9 +28,73 @@ Arnie seqentially sends emails - it does not attempt to send email to the SMTP s
 
 Credit to Lynn Root for Arnie's shutdown code https://www.roguelynn.com/words/asyncio-graceful-shutdowns/
 
-## Running Arnie:
+## Installing Arnie:
 
-**Requires minimum Python 3.8**
+Make a directory:
+```
+sudo mkdir /opt/arniesmtpbufferserver
+```
+
+Set permissions on the directory. For example if you plan to run the server as username ubuntu:
+```
+sudo chown -R :ubuntu /opt/arniesmtpbufferserver/
+sudo chmod -R g+rwx /opt/arniesmtpbufferserver/
+```
+
+Check your version of Python is at least 3.8:
+
+```
+python3 -V
+> Python 3.8.10
+```
+
+Switch to the directory:
+
+```
+cd /opt/arniesmtpbufferserver/
+```
+Download the Arnie Python program file from github:
+
+```
+curl -O https://raw.githubusercontent.com/bootrino/arniesmtpbufferserver/master/arniesmtpbufferserver.py
+curl -O https://raw.githubusercontent.com/bootrino/arniesmtpbufferserver/master/.env
+```
+Create a Python venv:
+
+```
+python3 -m venv venv3
+```
+
+Activate the venv:
+
+```
+source venv3/bin/activate
+```
+
+Install the required libraries into the venv:
+
+```
+pip install wheel                             
+pip install aiosmtplib                             
+pip install aiosmtpd 
+pip install python-dotenv
+```
+
+Run Arnie:
+
+```
+python3 arniesmtpbufferserver.py
+```
+
+Arnie should now start and be ready to send email.
+
+## Security important!
+
+Arnie is an open mail relay - it has no security - it is intended to be accessed only as a local service on a server.
+ 
+The ARNIE_LISTEN_PORT SHOULD NOT BE EXPOSED TO THE INTERNET!
+
+## Running Arnie:
 
 Prior to running the server, you must set certain environment variables in the .env file.
 
@@ -74,70 +140,6 @@ Send a test email via Arnie with curl (modify this line and replace the email ad
 ```
 printf "To: foo@example.org\r\nFrom: foo@example.org\r\nSubject: A test from Arnie\r\n\r\nI'll be back." | curl smtp://127.0.0.1:8025 --mail-from foo@example.org --mail-rcpt foo@example.org -T -
 ```
-
-## Instructions to install Arnie on Linux:
-
-Make a directory:
-```
-sudo mkdir /opt/arniesmtpbufferserver
-```
-
-Set permissions on the directory. For example if you plan to run the server as username ubuntu:
-```
-sudo chown -R :ubuntu /opt/arniesmtpbufferserver/
-sudo chmod -R g+rwx /opt/arniesmtpbufferserver/
-```
-
-Check your version of Python is at least 3.8:
-
-```
-python3 -V
-> Python 3.8.10
-```
-
-Switch to the directory:
-
-```
-cd /opt/arniesmtpbufferserver/
-```
-
-Download the Arnie Python program file from github:
-
-```
-curl -O https://raw.githubusercontent.com/bootrino/arniesmtpbufferserver/master/arniesmtpbufferserver.py
-curl -O https://raw.githubusercontent.com/bootrino/arniesmtpbufferserver/master/.env
-```
-
-Create a Python venv:
-
-```
-python3 -m venv venv3
-```
-
-
-Activate the venv:
-
-```
-source venv3/bin/activate
-```
-
-Install the required libraries into the venv:
-
-```
-pip install wheel                             
-pip install aiosmtplib                             
-pip install aiosmtpd 
-pip install python-dotenv
-```
-Arnie is a single Python file. Save the arniesmtpbufferserver.py from the github repo.
-
-You are now ready to run Arnie.
-
-## Security important!
-
-This should not need saying but I'll say it anyway: Arnie is an open mail relay.
- 
-The ARNIE_LISTEN_PORT SHOULD NOT BE EXPOSED TO THE INTERNET - YOU HAVE BEEN WARNED!
 
 ## To run as a systemd service on Linux
 
