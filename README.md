@@ -8,6 +8,11 @@ License: MIT
 
 ## IMPORTANT!!! This is  NEW project, it is not battle tested! Use at your own risk.
 
+This server is written to meet my own personal needs - as such I do not need to, want to, nor can I afford to write tests.  
+
+Arnie is not intended to be a professional production quality email server ...... it's for technically experienced people who know what they are doing and are happy to read the Python code and accept the risks.
+
+If the above is not suitable for you then please don't use Arnie.
 
 ## Purpose of Arnie.
 
@@ -18,8 +23,6 @@ Ideally the web server code doesn't actually talk directly to an SMTP server.  I
 I wrote this because I got frustrated using complex queueing systems simply to buffer outbound SMTP emails.
 
 This server is intended for small scale usage - for example a typical web server for a SAAS application.  It may work for large scale email traffic but it's completely unknown how it would handle such load.
-
-This server is written to meet my own personal needs - as such I do not need to, want to, nor can I afford to write tests.  If that's important to you then you could use some other solution.  If you like the Arnie server and choose to use it then please use it on the understanding of the context in which it is written and provided to you for free.
 
 
 ## Running Arnie:
