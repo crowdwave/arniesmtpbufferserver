@@ -11,7 +11,8 @@ License: MIT
 ## IMPORTANT!!! This is  NEW project, it is not battle tested! Use at your own risk.
 
 -------------------------------
-**Purpose**:
+
+## Purpose of Arnie.
 
 Web applications often need to send emails.
 
