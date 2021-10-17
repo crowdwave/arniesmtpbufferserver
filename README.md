@@ -19,9 +19,9 @@ Created 17 Oct 2021 by Andrew Stuart andrew.stuart@supercoders.com.au
 
 License: MIT
 
-####IMPORTANT!!! This is  NEW project, it is not battle tested! Use at your own risk.
+#### IMPORTANT!!! This is  NEW project, it is not battle tested! Use at your own risk.
 
-##Instructions to install Arnie on Ubuntu Linux:
+## Instructions to install Arnie on Ubuntu Linux:
 
 Make a directory:
 ```
@@ -79,7 +79,7 @@ Arnie is a single Python file. Save the arniesmtpbufferserver.py from the github
 
 You are now ready to run Arnie.
 
-##Running Arnie:
+## Running Arnie:
 
 **Requires minimum Python 3.8**
 
@@ -128,13 +128,13 @@ Send a test email via Arnie with curl (modify this line and replace the email ad
 printf "To: foo@example.org\r\nFrom: foo@example.org\r\nSubject: A test from Arnie\r\n\r\nI'll be back." | curl smtp://127.0.0.1:8025 --mail-from foo@example.org --mail-rcpt foo@example.org -T -
 ```
 
-##Security important!
+## Security important!
 
 This should not need saying but I'll say it anyway: Arnie is an open mail relay.
  
 The ARNIE_LISTEN_PORT SHOULD NOT BE EXPOSED TO THE INTERNET - YOU HAVE BEEN WARNED!
 
-##To run as a systemd service on Linux
+## To run as a systemd service on Linux
 
 Go to the directory where systemd service files are stored:
 
