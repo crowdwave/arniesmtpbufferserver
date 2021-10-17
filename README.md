@@ -1,18 +1,10 @@
 # Arnie - SMTP buffer server in ~ 100 lines of async Python
 
-### Project status:
-
 Created 17 Oct 2021 by Andrew Stuart andrew.stuart@supercoders.com.au
 
 License: MIT
 
 **Requires minimum Python 3.8**
-
-This is  NEW project, it is not battle tested! Use at your own risk. This server is written to meet my own personal needs - as such I do not need to, want to, nor can I afford to write tests.  
-
-Arnie is not intended to be a professional production quality email server ...... it's for technically experienced people who know what they are doing and are happy to read the Python code and accept the risks.
-
-I wrote Arnie because I got frustrated using complex queueing systems simply to buffer outbound SMTP emails. I'd rather spend time writing this than spend the same time debugging Celery configuration.
 
 ## Purpose of Arnie.
 
@@ -23,6 +15,14 @@ Ideally the web server code doesn't actually talk directly to an SMTP server.  I
 This server is intended for small scale usage - for example a typical web server for a simple SAAS application.  It may work for large scale email traffic but it's unknown how it would handle such load.
 
 Arnie seqentially sends emails - it does not attempt to send email to the SMTP server in parallel.  It probably could do fairly easily by spawning email send tasks, but SMTP parallelisation was not the goal in writing Arnie.
+
+### Project status:
+
+This is  NEW project, it is not battle tested! Use at your own risk. This server is written to meet my own personal needs - as such I do not need to, want to, nor can I afford to write tests.  
+
+Arnie is not intended to be a professional production quality email server ...... it's for technically experienced people who know what they are doing and are happy to read the Python code and accept the risks.
+
+I wrote Arnie because I got frustrated using complex queueing systems simply to buffer outbound SMTP emails. I'd rather spend time writing this than spend the same time debugging Celery configuration.
 
 ## Credits:
 
