@@ -134,7 +134,7 @@ This should not need saying but I'll say it anyway: Arnie is an open mail relay.
  
 The ARNIE_LISTEN_PORT SHOULD NOT BE EXPOSED TO THE INTERNET - YOU HAVE BEEN WARNED!
 
-##To run as a service on Linux
+##To run as a systemd service on Linux
 
 Go to the directory where systemd service files are stored:
 
@@ -148,12 +148,25 @@ Download the systemd service file from github:
 sudo curl -O https://raw.githubusercontent.com/bootrino/arniesmtpbufferserver/master/etc/systemd/system/arniesmtpbufferserver.service
 ```
 
+Start the systemd service:
 
+```
+sudo systemctl start arniesmtpbufferserver.service
+```
 
+Examine the systemd log to ensure the service is running OK:
 
+```
+sudo journalctl -fu arniesmtpbufferserver.service
+```
 
+Enable the service to start when the system boots:
 
+```
+sudo systemctl enable arniesmtpbufferserver.service
+```
 
+You should now have Arnie running as a systemd service.
 
 -------------------------------
 
