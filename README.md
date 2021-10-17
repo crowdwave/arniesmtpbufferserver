@@ -125,7 +125,7 @@ Explanation of environment variables:
 **OUTBOUND_EMAIL_PASSWORD** - password for your destination SMTP server  
 **OUTBOUND_EMAIL_HOST_PORT** - port number  for your destination SMTP server  
 **ADMIN_ADDRESS** - the Arnie server sends an email every hour to this address with a count of failed sends. (omit this environment variable if you do not want to receive report emails)  
-**SAVE_SENT_MAIL** - if true, then sent emails are saved in the FILES_DIRECTORY/failed  
+**SAVE_SENT_MAIL** - if true, then sent emails are saved in the FILES_DIRECTORY/sent  
 **ARNIE_LISTEN_PORT** - default is 8025 - the port number that the Arnie server listens on for inbound SMTP messages  
 **FILES_DIRECTORY** - where Arnie should store the buffered email files  
 
