@@ -156,6 +156,12 @@ Download the systemd service file from github:
 sudo curl -O https://raw.githubusercontent.com/bootrino/arniesmtpbufferserver/master/etc/systemd/system/arniesmtpbufferserver.service
 ```
 
+Examine the systemd service file and check all the directories are correct for your setup.  Edit if needed.
+
+```
+cat /etc/systemd/system/arniesmtpbufferserver.service
+```
+
 Start the systemd service:
 
 ```
