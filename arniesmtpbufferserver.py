@@ -71,7 +71,7 @@ async def send_mail(loop):
         # discard files that are older than the creation_time_of_last_processed_file
         files_in_outbox = [x for x in files_in_outbox if os.path.getctime(x) > creation_time_of_last_processed_file]
         # discard files that have a modified time in the future
-        files_in_outbox = [x for x in files_in_outbox if os.path.getmtime(x) > time.time()]
+        files_in_outbox = [x for x in files_in_outbox if time.time() > os.path.getmtime(x) ]
         if not files_in_outbox:
             # no emails to send
             creation_time_of_last_processed_file = 0
