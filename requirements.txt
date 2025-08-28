@@ -1,0 +1,14 @@
+# requirements.txt for arniesmtpbufferserver
+
+# Aiosmtpd is the core SMTP server library.
+# Version 1.4.6 or higher is CRITICAL to patch security vulnerabilities
+# including SMTP Smuggling (CVE-2024-27305) and STARTTLS Injection (CVE-2024-34083).
+aiosmtpd>=1.4.6
+
+# Aiosmtplib is used by the sender for asynchronous SMTP client operations.
+# No specific version is required, but a recent one is recommended.
+aiosmtplib
+
+# Aiofiles provides an asynchronous API for file operations, preventing
+# the asyncio event loop from being blocked by disk I/O.
+aiofiles
