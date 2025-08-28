@@ -1,4 +1,6 @@
-# Arnie - SMTP buffer server in ~ 100 lines of async Python
+# Arnie - SMTP buffer server
+
+# DO NOT USE THIS IN PRODUCTION IT IS A DEMONSTRATION ONLY WITH LIKELY LOGIC AND OTHER FLAWS
 
 Created 17 Oct 2021 by Andrew Stuart andrew.stuart@supercoders.com.au
 
